@@ -17,6 +17,8 @@
 #include <GL/freeglut.h> 
 #include "Vector.h"
 
+#define DRONE_RADIUS 0.5
+
 class Drone {
 public:
     Drone();
@@ -26,10 +28,14 @@ public:
     void addImpulse(Vector impulse);
     void draw() const;
     void step();
+    
+    void setRotorRotationSpeed(float speed);
+    float getRotorRotationSpeed() const;
 private:
     Vector position;
     Vector impulse;
     float rotorRotation;
+    float rotorRotationSpeed;
 
 };
 

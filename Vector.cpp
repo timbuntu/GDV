@@ -13,6 +13,13 @@
 
 #include "Vector.h"
 
+Vector::Vector() {
+    this->x = 0;
+    this->y = 0;
+    this->z = 0;
+}
+
+
 Vector::Vector(float x, float y, float z) {
     this->x = x;
     this->y = y;
@@ -56,5 +63,11 @@ void Vector::setY(float y) {
 }
 
 void Vector::setZ(float z) {
+    this->z = z;
+}
+
+void Vector::set(float x, float y, float z) {
+    this->x = x;
+    this->y = y;
     this->z = z;
 }

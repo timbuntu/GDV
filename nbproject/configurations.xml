@@ -5,6 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>/home/tim/NetBeansProjects/OpenGL_Test/Drone.h</itemPath>
+      <itemPath>/home/tim/NetBeansProjects/OpenGL_Test/Textures.h</itemPath>
       <itemPath>/home/tim/NetBeansProjects/OpenGL_Test/Vector.h</itemPath>
       <itemPath>/home/tim/NetBeansProjects/OpenGL_Test/Wuerfel.h</itemPath>
     </logicalFolder>
@@ -67,6 +68,11 @@
             tool="3"
             flavor2="0">
       </item>
+      <item path="/home/tim/NetBeansProjects/OpenGL_Test/Textures.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="/home/tim/NetBeansProjects/OpenGL_Test/Vector.cpp"
             ex="false"
             tool="1"
@@ -116,6 +122,11 @@
             flavor2="0">
       </item>
       <item path="/home/tim/NetBeansProjects/OpenGL_Test/Drone.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/tim/NetBeansProjects/OpenGL_Test/Textures.h"
             ex="false"
             tool="3"
             flavor2="0">

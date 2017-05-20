@@ -17,7 +17,7 @@
 #include "Vector.h"
 
 Drone::Drone() 
-: position(0, 0, 0), impulse(0, 0, 0), rotorRotation(0)
+: position(0, 0, 0), impulse(0, 0, 0), rotorRotation(0), rotorRotationSpeed(25)
 {
     
 }
@@ -35,17 +35,15 @@ void Drone::addImpulse(Vector impulse) {
 
 void Drone::draw() const {
     
-    float radius = 0.5;
-    
     glPushMatrix();
     
     glTranslatef(position.getX(), position.getY(), position.getZ());
     
     glColor4f(0.9, 0, 0, 1);
-    glutSolidSphere(radius, 25, 25);
+    glutSolidSphere(DRONE_RADIUS, 25, 25);
     
     glRotatef(rotorRotation, 0, 1, 0);
-    glTranslatef(0.1, radius, 0);
+    glTranslatef(0.1, DRONE_RADIUS, 0);
     glColor4f(0, 0.7, 0, 1);
     
     glPushMatrix();
@@ -84,7 +82,18 @@ void Drone::draw() const {
 
 void Drone::step() {
     position += impulse;
-    rotorRotation -= 25;
+    if(position.getY() < DRONE_RADIUS)
+        position.setY(DRONE_RADIUS);
+    
+    rotorRotation -= rotorRotationSpeed;
     if(rotorRotation <= 0)
         rotorRotation += 360;
+}
+
+float Drone::getRotorRotationSpeed() const {
+    return rotorRotationSpeed;
+}
+
+void Drone::setRotorRotationSpeed(float speed) {
+    rotorRotationSpeed = speed;
 }

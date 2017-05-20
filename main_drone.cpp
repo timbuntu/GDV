@@ -8,26 +8,67 @@
 
 Drone drone;
 Drone drone2;
+Vector cameraPos, cameraLookAt, cameraUp;
 
 void Init()	
 {
    // Hier finden jene Aktionen statt, die zum Programmstart einmalig 
    // durchgeführt werden müssen
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_TEXTURE_2D);
     glClearDepth(1.0);
-    drone2.move(Vector(0, -2, -5));
+    cameraPos.set(0, 10, 25);
+    cameraLookAt.set(0, 10, 0);
+    cameraUp.set(0, 1, 0);
+    drone.move(Vector(0, 10, 10));
+    drone2.move(Vector(6, 5, 0));
+    GLuint texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    
+    GLfloat buffer[] = {
+        0.87, 0.72, 0.53,   1, 1, 1,    0.87, 0.72, 0.53,   1, 1, 1,
+        1, 1, 1,    0.87, 0.72, 0.53,   1, 1, 1,    0.87, 0.72, 0.53,
+        0.87, 0.72, 0.53,   1, 1, 1,    0.87, 0.72, 0.53,   1, 1, 1,
+        1, 1, 1,    0.87, 0.72, 0.53,   1, 1, 1,    0.87, 0.72, 0.53
+    };
+    
+    glTexImage2D(GL_TEXTURE_2D,     // 2D Textur
+                 0,                 // Detailsstufe (für Mipmaps)
+                 1,                 // Farbkomponenten (1 für Grauwerte)
+                 4, // Breite
+                 4,// Höhe
+                 0,                 // Rand
+                 GL_RGB,            // Pixel-Format (Grauwerte)
+                 GL_FLOAT,           // Datentyp der Komponenten (0 bis 255)
+                 buffer);           // Pixel-Puffer
 }
 
 void RenderScene() //Zeichenfunktion
 {
    // Hier befindet sich der Code der in jedem Frame ausgefuehrt werden muss
-   glLoadIdentity ();   // Aktuelle Model-/View-Transformations-Matrix zuruecksetzen
-   //gluLookAt(0, 0, 4, 0, 0, 0, 0, 1, 0);      //Schauen von Vorne
-   gluLookAt(0, 1, 4, 0, 0, 0, 0, 1, 0);      //Schauen von Vorne Oben
-   //gluLookAt(1, 0, 0, 0, 0, 0, 0, 1, 0);      //Schauen von Rechts
-   //gluLookAt(1, 1, 0, 0, 0, 0, 0, 1, 0);      //Schauen von Rechts Oben
+   glLoadIdentity ();   //Aktuelle Model-/View-Transformations-Matrix zuruecksetzen
+   gluLookAt(cameraPos.getX(), cameraPos.getY(), cameraPos.getZ(),
+           cameraLookAt.getX(), cameraLookAt.getY(), cameraLookAt.getZ(),
+           cameraUp.getX(), cameraUp.getY(), cameraUp.getZ());
    glClearColor(0, 0, 0.8, 1);
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+   
+   glBegin(GL_POLYGON);
+   glColor3f(0.87, 0.72, 0.53);
+   glTexCoord2f(0, 0);
+   glVertex3f(-100, 0, 100);
+   glTexCoord2f(0, 200);
+   glVertex3f(-100, 0, -100);
+   glTexCoord2f(200, 200);
+   glVertex3f(100, 0, -100);
+   glTexCoord2f(200, 0);
+   glVertex3f(100, 0, 100);
+   glEnd();
    
    drone.draw();
    
@@ -59,7 +100,7 @@ void Animate (int value)
    // erforderlich sind. Dieser Prozess läuft im Hintergrund und wird alle 
    // 1000 msec aufgerufen. Der Parameter "value" wird einfach nur um eins 
    // inkrementiert und dem Callback wieder uebergeben. 
-   std::cout << "value=" << value << std::endl;
+   //std::cout << "value=" << value << std::endl;
    
    drone.step();
    drone2.step();
@@ -90,6 +131,28 @@ void keyboard(unsigned char key, int x, int y) {
             break;
         case 'y':
             drone.addImpulse(Vector(0, -0.1, 0));
+            break;
+        case '1':
+            cameraPos.set(0, 10, 25);
+            cameraUp.set(0, 1, 0);
+            break;
+        case '2':
+            cameraPos.set(25, 10, 0);
+            cameraUp.set(0, 1, 0);
+            break;
+        case '3':
+            cameraPos.set(-25, 10, 0);
+            cameraUp.set(0, 1, 0);
+            break;
+        case '4':
+            cameraPos.set(0, 50, 0);
+            cameraUp.set(0, 0, -1);
+            break;
+        case '+':
+            drone.setRotorRotationSpeed(drone.getRotorRotationSpeed()+1);
+            break;
+        case '-':
+            drone.setRotorRotationSpeed(drone.getRotorRotationSpeed()-1);
             break;
         default:
             break;

@@ -16,6 +16,7 @@
 
 class Vector {
 public:
+    Vector();
     Vector(float x, float y, float z);
     Vector(const Vector& orig);
     Vector operator+(Vector& other);
@@ -28,6 +29,7 @@ public:
     void setX(float x);
     void setY(float y);
     void setZ(float z);
+    void set(float x, float y, float z);
 private:
     float x, y, z;
 
