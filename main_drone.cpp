@@ -1,21 +1,17 @@
-// GD-Praktikum:   teil_1.cpp  (Teil 1: Start-Programm)
-// Hergenroether / Groch    Last Update: 05.07.2014
 
 #include <iostream> 
-#include <GL/freeglut.h>         //lädt alles für OpenGL
+#include <GL/freeglut.h>
 #include "Wuerfel.h"
 #include "Drone.h"
 
 //Zwei Drohnen
 Drone drone;
 Drone drone2;
-//Variablen für Kamerperspektive
+//Variablen für Kameraperspektive
 Vector cameraPos, cameraLookAt, cameraUp;
 
 void Init()	
 {
-   // Hier finden jene Aktionen statt, die zum Programmstart einmalig 
-   // durchgeführt werden müssen
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     glClearDepth(1.0);
@@ -61,7 +57,6 @@ void Init()
 
 void RenderScene() //Zeichenfunktion
 {
-   // Hier befindet sich der Code der in jedem Frame ausgefuehrt werden muss
    glLoadIdentity ();   //Aktuelle Model-/View-Transformations-Matrix zuruecksetzen
    
    gluLookAt(cameraPos.getX(), cameraPos.getY(), cameraPos.getZ(),
@@ -92,8 +87,6 @@ void RenderScene() //Zeichenfunktion
 
 void Reshape(int width,int height)
 {
-   // Hier finden die Reaktionen auf eine Veränderung der Größe des 
-   // Graphikfensters statt
     // Matrix für Transformation: Frustum->viewport
     glMatrixMode(GL_PROJECTION);
     // Aktuelle Transformations-Matrix zuruecksetzen
@@ -108,12 +101,6 @@ void Reshape(int width,int height)
 
 void Animate (int value)    
 {
-   // Hier werden Berechnungen durchgeführt, die zu einer Animation der Szene  
-   // erforderlich sind. Dieser Prozess läuft im Hintergrund und wird alle 
-   // 1000 msec aufgerufen. Der Parameter "value" wird einfach nur um eins 
-   // inkrementiert und dem Callback wieder uebergeben. 
-   //std::cout << "value=" << value << std::endl;
-   
    //Die Position und andere Variablen der Drohnen aktualisieren
    drone.step();
    drone2.step();
@@ -204,10 +191,10 @@ int main(int argc, char **argv)
     // GLUT initialisieren
    glutInit( &argc, argv );
    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH );
-   glutInitWindowSize( 600, 600 );          // Fenster-Konfiguration
-   glutCreateWindow( "Denis Hirt; Tim Christen" );   // Fenster-Erzeugung
-   glutDisplayFunc( RenderScene );          // Zeichenfunktion bekannt machen
-   glutReshapeFunc( Reshape );              //Reshape-Funktion bekannt machen
+   glutInitWindowSize( 600, 600 );                          // Fenster-Konfiguration
+   glutCreateWindow( "Denis Hirt; Tim Christen" );          // Fenster-Erzeugung
+   glutDisplayFunc( RenderScene );                          // Zeichenfunktion registrieren
+   glutReshapeFunc( Reshape );                              //Reshape-Funktion registrieren
    // TimerCallback registrieren; wird nach 10 msec aufgerufen mit Parameter 0  
    glutTimerFunc( 10, Animate, 0);
    
