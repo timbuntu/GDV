@@ -4,9 +4,11 @@
 #include "Wuerfel.h"
 #include "Drone.h"
 
-//Zwei Drohnen
-Drone drone;
-Drone drone2;
+#define DRONE_N 4
+
+//Vier Drohnen
+Drone drones[DRONE_N];
+
 //Variablen für Kameraperspektive
 Vector cameraPos, cameraLookAt, cameraUp;
 
@@ -23,8 +25,10 @@ void Init()
     cameraUp.set(0, 1, 0);
     
     //Initiale Positionen der Drohnen setzen
-    drone.move(Vector(0, 10, 10));
-    drone2.move(Vector(6, 5, 0));
+    drones[0].move(Vector(0, 10, 10));
+    drones[1].move(Vector(6, 5, 0));
+    drones[2].move(Vector(-6, 4, 2));
+    drones[3].move(Vector(-3, 8, -3));
     
     //2D-Textur generieren
     GLuint texture;
@@ -79,8 +83,8 @@ void RenderScene() //Zeichenfunktion
    glEnd();
    
    //Die Drohnen zeichnen
-   drone.draw();
-   drone2.draw();
+   for(Drone& drone : drones)
+        drone.draw();
    
    glutSwapBuffers();
 }
@@ -102,8 +106,8 @@ void Reshape(int width,int height)
 void Animate (int value)    
 {
    //Die Position und andere Variablen der Drohnen aktualisieren
-   drone.step();
-   drone2.step();
+    for(Drone& drone : drones)
+        drone.step();
    
    // RenderScene aufrufen
    glutPostRedisplay();
@@ -116,22 +120,22 @@ void Animate (int value)
 void keyboard(unsigned char key, int x, int y) {
     switch(key) {
         case 'w':
-            drone.addImpulse(Vector(0, 0, -0.1));
+            drones[0].addImpulse(Vector(0, 0, -0.1));
             break;
         case 's':
-            drone.addImpulse(Vector(0, 0, 0.1));
+            drones[0].addImpulse(Vector(0, 0, 0.1));
             break;
         case 'a':
-            drone.addImpulse(Vector(-0.1, 0, 0));
+            drones[0].addImpulse(Vector(-0.1, 0, 0));
             break;
         case 'd':
-            drone.addImpulse(Vector(0.1, 0, 0));
+            drones[0].addImpulse(Vector(0.1, 0, 0));
             break;
         case ' ':
-            drone.addImpulse(Vector(0, 0.1, 0));
+            drones[0].addImpulse(Vector(0, 0.1, 0));
             break;
         case 'y':
-            drone.addImpulse(Vector(0, -0.1, 0));
+            drones[0].addImpulse(Vector(0, -0.1, 0));
             break;
         case '1':
             cameraPos.set(0, 10, 25);
@@ -150,10 +154,10 @@ void keyboard(unsigned char key, int x, int y) {
             cameraUp.set(0, 0, -1);
             break;
         case '+':
-            drone.setRotorRotationSpeed(drone.getRotorRotationSpeed()+1);
+            drones[0].setRotorRotationSpeed(drones[0].getRotorRotationSpeed()+1);
             break;
         case '-':
-            drone.setRotorRotationSpeed(drone.getRotorRotationSpeed()-1);
+            drones[0].setRotorRotationSpeed(drones[0].getRotorRotationSpeed()-1);
             break;
         default:
             break;
@@ -164,22 +168,22 @@ void keyboard(unsigned char key, int x, int y) {
 void keyboardUp(unsigned char key, int x, int y) {
     switch(key) {
         case 'w':
-            drone.addImpulse(Vector(0, 0, 0.1));
+            drones[0].addImpulse(Vector(0, 0, 0.1));
             break;
         case 's':
-            drone.addImpulse(Vector(0, 0, -0.1));
+            drones[0].addImpulse(Vector(0, 0, -0.1));
             break;
         case 'a':
-            drone.addImpulse(Vector(0.1, 0, 0));
+            drones[0].addImpulse(Vector(0.1, 0, 0));
             break;
         case 'd':
-            drone.addImpulse(Vector(-0.1, 0, 0));
+            drones[0].addImpulse(Vector(-0.1, 0, 0));
             break;
         case ' ':
-            drone.addImpulse(Vector(0, -0.1, 0));
+            drones[0].addImpulse(Vector(0, -0.1, 0));
             break;
         case 'y':
-            drone.addImpulse(Vector(0, 0.1, 0));
+            drones[0].addImpulse(Vector(0, 0.1, 0));
             break;
         default:
             break;

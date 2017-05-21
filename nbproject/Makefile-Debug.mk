@@ -68,22 +68,22 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/opengl_test: ${OBJECTFILES}
 ${OBJECTDIR}/_ext/bab0b6eb/Drone.o: /home/tim/NetBeansProjects/OpenGL_Test/Drone.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/bab0b6eb
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/bab0b6eb/Drone.o /home/tim/NetBeansProjects/OpenGL_Test/Drone.cpp
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/bab0b6eb/Drone.o /home/tim/NetBeansProjects/OpenGL_Test/Drone.cpp
 
 ${OBJECTDIR}/_ext/bab0b6eb/Vector.o: /home/tim/NetBeansProjects/OpenGL_Test/Vector.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/bab0b6eb
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/bab0b6eb/Vector.o /home/tim/NetBeansProjects/OpenGL_Test/Vector.cpp
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/bab0b6eb/Vector.o /home/tim/NetBeansProjects/OpenGL_Test/Vector.cpp
 
 ${OBJECTDIR}/_ext/bab0b6eb/Wuerfel.o: /home/tim/NetBeansProjects/OpenGL_Test/Wuerfel.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/bab0b6eb
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/bab0b6eb/Wuerfel.o /home/tim/NetBeansProjects/OpenGL_Test/Wuerfel.cpp
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/bab0b6eb/Wuerfel.o /home/tim/NetBeansProjects/OpenGL_Test/Wuerfel.cpp
 
 ${OBJECTDIR}/main_drone.o: main_drone.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main_drone.o main_drone.cpp
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main_drone.o main_drone.cpp
 
 # Subprojects
 .build-subprojects:
