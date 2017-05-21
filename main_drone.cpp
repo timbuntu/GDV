@@ -6,8 +6,10 @@
 #include "Wuerfel.h"
 #include "Drone.h"
 
+//Zwei Drohnen
 Drone drone;
 Drone drone2;
+//Variablen für Kamerperspektive
 Vector cameraPos, cameraLookAt, cameraUp;
 
 void Init()	
@@ -17,47 +19,58 @@ void Init()
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     glClearDepth(1.0);
+    glClearColor(0, 0, 0.8, 1);
+    
+    //Initiale Kameraperspektive setzen
     cameraPos.set(0, 10, 25);
     cameraLookAt.set(0, 10, 0);
     cameraUp.set(0, 1, 0);
+    
+    //Initiale Positionen der Drohnen setzen
     drone.move(Vector(0, 10, 10));
     drone2.move(Vector(6, 5, 0));
+    
+    //2D-Textur generieren
     GLuint texture;
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
+    
+    //Parameter für Texturen setzen
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     
-    GLfloat buffer[] = {
-        0.87, 0.72, 0.53,   1, 1, 1,    0.87, 0.72, 0.53,   1, 1, 1,
-        1, 1, 1,    0.87, 0.72, 0.53,   1, 1, 1,    0.87, 0.72, 0.53,
-        0.87, 0.72, 0.53,   1, 1, 1,    0.87, 0.72, 0.53,   1, 1, 1,
-        1, 1, 1,    0.87, 0.72, 0.53,   1, 1, 1,    0.87, 0.72, 0.53
+    GLfloat pixels[] = {
+        0.87, 0.72, 0.53,   1, 1, 1,      0.87, 0.72, 0.53,   1, 1, 1,
+        1, 1, 1,    0.87,   0.72, 0.53,   1, 1, 1,            0.87, 0.72, 0.53,
+        0.87, 0.72, 0.53,   1, 1, 1,      0.87, 0.72, 0.53,   1, 1, 1,
+        1, 1, 1,    0.87,   0.72, 0.53,   1, 1, 1,            0.87, 0.72, 0.53
     };
     
     glTexImage2D(GL_TEXTURE_2D,     // 2D Textur
                  0,                 // Detailsstufe (für Mipmaps)
-                 1,                 // Farbkomponenten (1 für Grauwerte)
-                 4, // Breite
-                 4,// Höhe
-                 0,                 // Rand
-                 GL_RGB,            // Pixel-Format (Grauwerte)
-                 GL_FLOAT,           // Datentyp der Komponenten (0 bis 255)
-                 buffer);           // Pixel-Puffer
+                 GL_RGB,            // internes Format
+                 4,                 // Breite
+                 4,                 // Höhe
+                 0,                 // Rand (Muss 0 sein)
+                 GL_RGB,            // format des pixel buffer
+                 GL_FLOAT,          // Datentyp der Komponenten
+                 pixels);           // Pixel-Puffer
 }
 
 void RenderScene() //Zeichenfunktion
 {
    // Hier befindet sich der Code der in jedem Frame ausgefuehrt werden muss
    glLoadIdentity ();   //Aktuelle Model-/View-Transformations-Matrix zuruecksetzen
+   
    gluLookAt(cameraPos.getX(), cameraPos.getY(), cameraPos.getZ(),
            cameraLookAt.getX(), cameraLookAt.getY(), cameraLookAt.getZ(),
            cameraUp.getX(), cameraUp.getY(), cameraUp.getZ());
-   glClearColor(0, 0, 0.8, 1);
+   
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
    
+   //Den Boden zeichnen (Mit Textur)
    glBegin(GL_POLYGON);
    glColor3f(0.87, 0.72, 0.53);
    glTexCoord2f(0, 0);
@@ -70,8 +83,8 @@ void RenderScene() //Zeichenfunktion
    glVertex3f(100, 0, 100);
    glEnd();
    
+   //Die Drohnen zeichnen
    drone.draw();
-   
    drone2.draw();
    
    glutSwapBuffers();
@@ -87,8 +100,7 @@ void Reshape(int width,int height)
     glLoadIdentity ();
     // Viewport definieren
     glViewport(0,0,width,height);
-    // Frustum definieren (siehe unten)
-    //glOrtho( -1., 1., -1., 1., 0.0, 1.5);
+    // Frustum definieren
     gluPerspective(45, 1, 0.1, 50.0);
     // Matrix für Modellierung/Viewing
     glMatrixMode(GL_MODELVIEW);
@@ -102,6 +114,7 @@ void Animate (int value)
    // inkrementiert und dem Callback wieder uebergeben. 
    //std::cout << "value=" << value << std::endl;
    
+   //Die Position und andere Variablen der Drohnen aktualisieren
    drone.step();
    drone2.step();
    
@@ -112,6 +125,7 @@ void Animate (int value)
    glutTimerFunc(wait_msec, Animate, ++value);
 }
 
+//Handler für das Runterdrücken von Tasten
 void keyboard(unsigned char key, int x, int y) {
     switch(key) {
         case 'w':
@@ -159,6 +173,7 @@ void keyboard(unsigned char key, int x, int y) {
     }
 }
 
+//Handler für das Loslassen von Tasten
 void keyboardUp(unsigned char key, int x, int y) {
     switch(key) {
         case 'w':
@@ -186,15 +201,17 @@ void keyboardUp(unsigned char key, int x, int y) {
 
 int main(int argc, char **argv)
 {
-   glutInit( &argc, argv );                // GLUT initialisieren
+    // GLUT initialisieren
+   glutInit( &argc, argv );
    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH );
-   glutInitWindowSize( 600, 600 );         // Fenster-Konfiguration
+   glutInitWindowSize( 600, 600 );          // Fenster-Konfiguration
    glutCreateWindow( "Denis Hirt; Tim Christen" );   // Fenster-Erzeugung
-   glutDisplayFunc( RenderScene );         // Zeichenfunktion bekannt machen
-   glutReshapeFunc( Reshape );
+   glutDisplayFunc( RenderScene );          // Zeichenfunktion bekannt machen
+   glutReshapeFunc( Reshape );              //Reshape-Funktion bekannt machen
    // TimerCallback registrieren; wird nach 10 msec aufgerufen mit Parameter 0  
    glutTimerFunc( 10, Animate, 0);
    
+   //Handler für Tastatureingaben registrieren
    glutKeyboardFunc(keyboard);
    glutKeyboardUpFunc(keyboardUp);
    

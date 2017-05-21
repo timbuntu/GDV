@@ -14,6 +14,7 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+//Simple Vektor-Klasse
 class Vector {
 public:
     Vector();

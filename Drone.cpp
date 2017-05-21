@@ -18,36 +18,38 @@
 
 Drone::Drone() 
 : position(0, 0, 0), impulse(0, 0, 0), rotorRotation(0), rotorRotationSpeed(25)
-{
-    
-}
+{}
 
-Drone::~Drone() {
-}
-
+//Drohne auf einmal Bewegen
 void Drone::move(Vector movement) {
     position += movement;
 }
 
+//Bewegungsimpuls geben
 void Drone::addImpulse(Vector impulse) {
     this->impulse += impulse;
 }
 
+//Drohne zeichnen
 void Drone::draw() const {
     
     glPushMatrix();
     
+    //Translation an aktuelle Position
     glTranslatef(position.getX(), position.getY(), position.getZ());
     
-    glColor4f(0.9, 0, 0, 1);
-    glutSolidSphere(DRONE_RADIUS, 25, 25);
+    //Körper der Drohne Zeichnen
+    glColor4f(0.9, 0, 0, 1);                    //Rote Farbe
+    glutSolidSphere(DRONE_RADIUS, 25, 25);      //Kugel zeichnen
     
-    glRotatef(rotorRotation, 0, 1, 0);
-    glTranslatef(0.1, DRONE_RADIUS, 0);
-    glColor4f(0, 0.7, 0, 1);
+    //Rotor
+    glRotatef(rotorRotation, 0, 1, 0);          //Rotation
+    glTranslatef(0.1, DRONE_RADIUS, 0);         //Position auf dem Körper
+    glColor4f(0, 0.7, 0, 1);                    //Grüne Farbe
     
     glPushMatrix();
     
+    //Rotorblatt 1
     glRotatef(90, 1, 0, 0);
     glScalef(2, 2, 2);
     
@@ -62,6 +64,7 @@ void Drone::draw() const {
     
     glPopMatrix();
     
+    //Rotorblatt 2
     glTranslatef(-0.2, 0, 0);
     glRotatef(90, 1, 0, 0);
     glRotatef(180, 0, 0, 1);
@@ -80,20 +83,26 @@ void Drone::draw() const {
     
 }
 
+//Werte für nächsten Animationsschritt berechnen
 void Drone::step() {
+    //Neue Position berechnen
     position += impulse;
+    //Nicht in den Boden bewegen
     if(position.getY() < DRONE_RADIUS)
         position.setY(DRONE_RADIUS);
     
+    //Neuen Rotationswinkel des Rotors berechnen
     rotorRotation -= rotorRotationSpeed;
     if(rotorRotation <= 0)
         rotorRotation += 360;
 }
 
+//Getter für Rotationsgeschwindigkeit
 float Drone::getRotorRotationSpeed() const {
     return rotorRotationSpeed;
 }
 
+//Setter für Rotationsgeschwindigkeit
 void Drone::setRotorRotationSpeed(float speed) {
     rotorRotationSpeed = speed;
 }
