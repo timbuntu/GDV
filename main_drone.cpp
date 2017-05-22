@@ -150,7 +150,7 @@ void keyboard(unsigned char key, int x, int y) {
             cameraUp.set(0, 1, 0);
             break;
         case '4':
-            cameraPos.set(0, 50, 0);
+            cameraPos.set(0, 49, 0);
             cameraUp.set(0, 0, -1);
             break;
         case '+':
