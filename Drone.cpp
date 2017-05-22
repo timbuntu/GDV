@@ -38,15 +38,14 @@ void Drone::draw() const {
     
     //Rotorblatt 1
     glRotatef(90, 1, 0, 0);
-    glScalef(2, 2, 2);
     
     glBegin(GL_TRIANGLE_STRIP);
-    glVertex3f(0, 0.5, 0);
+    glVertex3f(0, 1, 0);
     glVertex3f(0, 0, 0);
-    glVertex3f(-0.1, 0, 0);
-    glVertex3f(0, 0, -0.01);
-    glVertex3f(0, 0.5, 0);
-    glVertex3f(-0.1, 0, 0);
+    glVertex3f(-0.2, 0, 0);
+    glVertex3f(0, 0, -0.02);
+    glVertex3f(0, 1, 0);
+    glVertex3f(-0.2, 0, 0);
     glEnd();
     
     glPopMatrix();
@@ -55,15 +54,14 @@ void Drone::draw() const {
     glTranslatef(-0.2, 0, 0);
     glRotatef(90, 1, 0, 0);
     glRotatef(180, 0, 0, 1);
-    glScalef(2, 2, 2);
     
     glBegin(GL_TRIANGLE_STRIP);
-    glVertex3f(0, 0.5, 0);
+    glVertex3f(0, 1, 0);
     glVertex3f(0, 0, 0);
-    glVertex3f(-0.1, 0, 0);
-    glVertex3f(0, 0, -0.01);
-    glVertex3f(0, 0.5, 0);
-    glVertex3f(-0.1, 0, 0);
+    glVertex3f(-0.2, 0, 0);
+    glVertex3f(0, 0, -0.02);
+    glVertex3f(0, 1, 0);
+    glVertex3f(-0.2, 0, 0);
     glEnd();
     
     glPopMatrix();
